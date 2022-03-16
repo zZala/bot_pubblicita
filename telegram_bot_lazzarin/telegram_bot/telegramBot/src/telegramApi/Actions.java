@@ -18,7 +18,7 @@ import telegramApi.JMessage.Result;
 
 /**
  *
- * @author zzala
+ * @author lazzarin_andrea
  */
 public class Actions {
 

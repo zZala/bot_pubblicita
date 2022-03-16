@@ -7,7 +7,7 @@ package botpubblicita;
 
 /**
  *
- * @author lazza
+ * @author lazzarin_andrea
  */
 public class Utente {
 

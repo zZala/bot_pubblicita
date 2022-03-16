@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author lazza
+ * @author lazzarin_andrea
  */
 public class JMessage {
 

@@ -16,7 +16,7 @@ import telegramApi.JMessage.Chat;
 
 /**
  *
- * @author lazza
+ * @author lazzarin_andrea
  */
 public class FileCSV {
 

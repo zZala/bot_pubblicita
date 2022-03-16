@@ -15,7 +15,7 @@ import telegramApi.JMessage.Result;
 
 /**
  *
- * @author lazza
+ * @author lazzarin_andrea
  */
 public class ThreadUpdate extends Thread {
 
