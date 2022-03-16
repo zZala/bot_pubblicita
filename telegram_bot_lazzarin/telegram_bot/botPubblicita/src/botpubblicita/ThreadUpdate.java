@@ -28,32 +28,34 @@ public class ThreadUpdate extends Thread {
 
     @Override
     public void run() {
-        FileCSV csv = new FileCSV("utenti.csv");
-        Actions a = new Actions();
-        int last_update_id = 0;
-        Result lastMessage;
-        while (true) {
-            try {
-                lastMessage = a.getUpdates(path);
-                if (lastMessage.update_id != last_update_id) {
-                    last_update_id = lastMessage.update_id;
-                    Place p;
-                    if (lastMessage.message.location != null) {
-                        p = new Place(lastMessage.message.location.latitude, lastMessage.message.location.longitude);
-                        csv.writeUtente(lastMessage.message.chat, p);
-                    } else if (lastMessage.message.text.contains("/paese ")) {
-                        String temp[] = lastMessage.message.text.split(" ", 2);
-                        String paese = temp[1];
-                        OpenStreetMap op = new OpenStreetMap();
-                        p = op.cercaPaese(paese);
-                        csv.writeUtente(lastMessage.message.chat, p);
-                    }
+        try {
+            FileCSV csv = new FileCSV("utenti.csv");
+            Actions a = new Actions();
+            Result lastMessage;
+            while (true) {
+                try {
                     
+                    lastMessage = a.getUpdates(path);
+                    if (lastMessage != null) {
+                        Place p;
+                        if (lastMessage.message.location != null) {
+                            p = new Place(lastMessage.message.location.latitude, lastMessage.message.location.longitude);
+                            csv.writeUtente(lastMessage.message.chat, p);
+                        } else if (lastMessage.message.text.contains("/paese ")) {
+                            String temp[] = lastMessage.message.text.split(" ", 2);
+                            String paese = temp[1];
+                            OpenStreetMap op = new OpenStreetMap();
+                            p = op.cercaPaese(paese);
+                            csv.writeUtente(lastMessage.message.chat, p);
+                        }
+                    }
+                    Thread.sleep(1000);
+                } catch (IOException | ParserConfigurationException | SAXException | InterruptedException ex) {
+                    Logger.getLogger(ThreadUpdate.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                Thread.sleep(1000);
-            } catch (IOException | ParserConfigurationException | SAXException | InterruptedException ex) {
-                Logger.getLogger(ThreadUpdate.class.getName()).log(Level.SEVERE, null, ex);
             }
+        } catch (IOException ex) {
+            Logger.getLogger(ThreadUpdate.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

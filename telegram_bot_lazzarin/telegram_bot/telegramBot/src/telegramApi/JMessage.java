@@ -16,6 +16,7 @@ public class JMessage {
     public boolean ok;
     public ArrayList<Result> result;
 
+
     public class From {
 
         public int id;
@@ -63,9 +64,6 @@ public class JMessage {
 
         public int update_id;
         public Message message;
-
-        public Result() {
-        }
+        
     }
-
 }

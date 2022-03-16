@@ -139,7 +139,6 @@ public class NewAnnuncio extends javax.swing.JFrame {
         return distance;
     }
 
-
     private void btnInviaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInviaActionPerformed
         String citta = txtCittà.getText();
         int raggio = Integer.parseInt(txtRaggio.getText());
@@ -155,16 +154,21 @@ public class NewAnnuncio extends javax.swing.JFrame {
             Logger.getLogger(NewAnnuncio.class.getName()).log(Level.SEVERE, null, ex);
         }
         if (p != null) {
-            FileCSV fr = new FileCSV("utenti.csv");
             try {
-                List<Utente> list = fr.getListUtenti();
-                for (Utente u : list) {
-                    double distance = distanza(p.getLat(), p.getLon(), u.lat, u.lon);
-                    if (distance <= raggio) {
-                        Actions a = new Actions();
-                        a.sendMessage(u.chat_id, testo);
+                FileCSV fr = new FileCSV("utenti.csv");
+                try {
+                    List<Utente> list = fr.getListUtenti();
+                    for (Utente u : list) {
+                        double distance = distanza(p.getLat(), p.getLon(), u.lat, u.lon);
+                        if (distance <= raggio) {
+                            Actions a = new Actions();
+                            a.sendMessage(u.chat_id, testo);
+                        }
                     }
+                } catch (IOException ex) {
+                    Logger.getLogger(NewAnnuncio.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                
             } catch (IOException ex) {
                 Logger.getLogger(NewAnnuncio.class.getName()).log(Level.SEVERE, null, ex);
             }

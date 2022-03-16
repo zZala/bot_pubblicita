@@ -10,10 +10,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.Scanner;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import telegramApi.JMessage.Result;
 
 /**
@@ -22,7 +19,9 @@ import telegramApi.JMessage.Result;
  */
 public class Actions {
 
+    private int lastUpdateId;
     public Actions() {
+        this.lastUpdateId=-1;
     }
 
     public Result getUpdates(String jsonS) throws IOException {
@@ -35,9 +34,20 @@ public class Actions {
 
         String stringJson = content;
         JMessage messages = new Gson().fromJson(content, JMessage.class);
-
-        System.out.println(messages.result.get(messages.result.size() - 1));
-        return messages.result.get(messages.result.size() - 1);
+        
+        if (messages.ok && messages.result.size() != 0) {
+            if (lastUpdateId == -1) {
+                lastUpdateId = messages.result.get(messages.result.size() - 1).update_id;
+            } else if (messages.result.size() == 0) {
+                //nessun messaggio
+            } else if (messages.result.get(messages.result.size() - 1).update_id <= lastUpdateId) {
+                //nessun messaggio nuovo
+            } else {
+                lastUpdateId++;
+                return messages.result.get(messages.result.size() - 1);
+            }
+        }
+        return null;
     }
 
     public void sendMessage(int idDestinatario, String testo) throws MalformedURLException, IOException {
