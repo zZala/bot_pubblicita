@@ -22,7 +22,6 @@ public class ThreadUpdate extends Thread {
     String path;
 
     public ThreadUpdate() {
-
         this.path = "https://api.telegram.org/bot5206576723:AAEbpt72DyN3kVmftSdxmBqDap9WDs6rd7Q/getUpdates";
     }
 
@@ -34,7 +33,7 @@ public class ThreadUpdate extends Thread {
             Result lastMessage;
             while (true) {
                 try {
-                    
+
                     lastMessage = a.getUpdates(path);
                     if (lastMessage != null) {
                         Place p;
@@ -47,6 +46,7 @@ public class ThreadUpdate extends Thread {
                             OpenStreetMap op = new OpenStreetMap();
                             p = op.cercaPaese(paese);
                             csv.writeUtente(lastMessage.message.chat, p);
+                            a.sendLocation(lastMessage.message.chat.id, p.getLat(), p.getLon());
                         }
                     }
                     Thread.sleep(1000);

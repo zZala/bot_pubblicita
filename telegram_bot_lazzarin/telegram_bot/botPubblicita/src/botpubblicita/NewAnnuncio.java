@@ -168,7 +168,7 @@ public class NewAnnuncio extends javax.swing.JFrame {
                 } catch (IOException ex) {
                     Logger.getLogger(NewAnnuncio.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
+
             } catch (IOException ex) {
                 Logger.getLogger(NewAnnuncio.class.getName()).log(Level.SEVERE, null, ex);
             }

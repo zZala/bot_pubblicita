@@ -32,7 +32,7 @@ public class ParseFileXML {
     public List parseDocumentPlace() throws ParserConfigurationException, SAXException, IOException {
         DocumentBuilderFactory factory;
         DocumentBuilder builder;
-        Element root, element;
+        Element root;
         NodeList nodelist;
 
         Document document;

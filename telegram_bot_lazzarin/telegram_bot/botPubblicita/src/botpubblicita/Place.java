@@ -29,8 +29,6 @@ public class Place {
         this.lon = Double.parseDouble(e.getAttribute("lon"));
     }
 
-    
-
     public String getDisplay_name() {
         return display_name;
     }

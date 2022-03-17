@@ -7,7 +7,6 @@ package telegramApi;
 
 import com.google.gson.Gson;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Scanner;
@@ -20,8 +19,9 @@ import telegramApi.JMessage.Result;
 public class Actions {
 
     private int lastUpdateId;
+
     public Actions() {
-        this.lastUpdateId=-1;
+        this.lastUpdateId = -1;
     }
 
     public Result getUpdates(String jsonS) throws IOException {
@@ -31,10 +31,8 @@ public class Actions {
         inRemote.useDelimiter("\u001a");
 
         String content = inRemote.next();
-
-        String stringJson = content;
         JMessage messages = new Gson().fromJson(content, JMessage.class);
-        
+
         if (messages.ok && messages.result.size() != 0) {
             if (lastUpdateId == -1) {
                 lastUpdateId = messages.result.get(messages.result.size() - 1).update_id;
@@ -50,16 +48,17 @@ public class Actions {
         return null;
     }
 
-    public void sendMessage(int idDestinatario, String testo) throws MalformedURLException, IOException {
+    public void sendMessage(int idDestinatario, String testo) throws IOException  {
         String url = "https://api.telegram.org/bot5206576723:AAEbpt72DyN3kVmftSdxmBqDap9WDs6rd7Q/sendMessage?";
         String path = "chat_id=" + idDestinatario + "&text=" + URLEncoder.encode(testo, "UTF-8");
         url += path;
         URL fileUrl = new URL(url);
-        Scanner inRemote = new Scanner(fileUrl.openStream());
-        inRemote.useDelimiter("\u001a");
-
-        String content = inRemote.next();
-        inRemote.close();
+        fileUrl.openStream();
+    }
+    
+    public void sendLocation(int idDestinatario, double lat, double lon) throws IOException{
+        URL Url = new URL("https://api.telegram.org/bot5206576723:AAEbpt72DyN3kVmftSdxmBqDap9WDs6rd7Q/sendLocation?chat_id="+idDestinatario+"&latitude="+lat+"&longitude="+lon);
+        Url.openStream();
     }
 
 }
