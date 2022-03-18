@@ -117,26 +117,24 @@ public class NewAnnuncio extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    public double distanza(double lat1, double longit1, double lat2, double longit2) {
 
-        double distance = 0;
+    public double degreesToRadians(double degrees) {
+        return degrees * Math.PI / 180;
+    }
 
-        double dist_long = longit2 - longit1;
-        double dist_lat = lat2 - lat1;
+    public double distanza(double lat1, double lon1, double lat2, double lon2) {
+        var earthRadiusKm = 6371;
 
-        double pezzo1 = Math.cos(lat2) * Math.sin(dist_long);
-        double pezzo11 = pezzo1 * pezzo1;
+        var dLat = degreesToRadians(lat2 - lat1);
+        var dLon = degreesToRadians(lon2 - lon1);
 
-        double pezzo2 = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dist_long);
-        double pezzo22 = pezzo2 * pezzo2;
+        lat1 = degreesToRadians(lat1);
+        lat2 = degreesToRadians(lat2);
 
-        double pezzo3 = Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(dist_long);
-
-        double pezzo4 = Math.atan((Math.sqrt(pezzo11 + pezzo22)) / pezzo3);
-
-        distance = pezzo4 * 6372;
-
-        return distance;
+        var a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
+                + Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return earthRadiusKm * c;
     }
 
     private void btnInviaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInviaActionPerformed
