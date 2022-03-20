@@ -5,6 +5,7 @@
  */
 package botpubblicita;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
@@ -15,7 +16,7 @@ import java.util.Scanner;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
-/**
+/** 
  *
  * @author lazzarin_andrea
  */
@@ -38,6 +39,10 @@ public class OpenStreetMap {
 
         ParseFileXML xml = new ParseFileXML("out.xml");
         Place p = (Place) xml.parseDocumentPlace().get(0);
+        
+        //elimino file siccome inutile dopo la prima volta
+        File f = new File("out.xml");
+        f.delete();
         return p;
     }
 
